@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/mtojek/ohlavpn/ipapi"
+	
 	"github.com/mtojek/ohlavpn/vpn"
 )
 
@@ -17,7 +17,7 @@ func main() {
 
 	flag.StringVar(&countryCode, "c", "us", "country code")
 	flag.IntVar(&limit, "l", 5, "proxy server limit")
-	flag.BoolVar(&geoIP, "g", false, "check GeoIP data")
+	
 	flag.BoolVar(&verify, "v", false, "verify proxy connectivity")
 	flag.Parse()
 
@@ -39,19 +39,7 @@ func main() {
 	for _, tunnel := range tunnels.Servers {
 		fmt.Print(tunnel.String())
 
-		if geoIP {
-			ipAPIClient := ipapi.NewClient()
-			if verify {
-				ipAPIClient = ipAPIClient.WithProxy(tunnel.URL())
-			}
-
-			geoIPData, err := ipAPIClient.GeoIP(tunnel.Host)
-			if err != nil {
-				fmt.Printf("\terror checking GeoIP data: %v", err)
-			} else {
-				fmt.Printf("\t%v", geoIPData.String())
-			}
-		}
+		
 
 		fmt.Println()
 	}
